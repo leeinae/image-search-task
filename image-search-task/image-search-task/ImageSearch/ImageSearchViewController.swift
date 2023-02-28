@@ -5,6 +5,8 @@
 //  Created by inae Lee on 2023/02/28.
 //
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import UIKit
 
@@ -23,8 +25,8 @@ final class ImageSearchViewController: UIViewController {
             collectionViewLayout: collectionViewLayout
         )
         view.register(
-            ResultItemCollectionViewCell.self,
-            forCellWithReuseIdentifier: ResultItemCollectionViewCell.identifier
+            ImageItemCollectionViewCell.self,
+            forCellWithReuseIdentifier: ImageItemCollectionViewCell.identifier
         )
         view.dataSource = self
         return view
@@ -33,14 +35,17 @@ final class ImageSearchViewController: UIViewController {
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = .init(width: self.view.bounds.width, height: 100)
+        layout.itemSize = .init(width: self.view.bounds.width, height: 100 + 44)
         return layout
     }()
+
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+        bind()
     }
 
     private func setupUI() {
@@ -56,6 +61,14 @@ final class ImageSearchViewController: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
+
+    private func bind() {
+        searchBar.rx.selectedScopeButtonIndex
+            .subscribe { [weak self] index in
+                self?.collectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 extension ImageSearchViewController: UICollectionViewDataSource {
@@ -63,7 +76,7 @@ extension ImageSearchViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        100
+        searchBar.selectedScopeButtonIndex == 0 ? 100 : 0
     }
 
     func collectionView(
@@ -71,9 +84,9 @@ extension ImageSearchViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ResultItemCollectionViewCell.identifier,
+            withReuseIdentifier: ImageItemCollectionViewCell.identifier,
             for: indexPath
-        ) as? ResultItemCollectionViewCell
+        ) as? ImageItemCollectionViewCell
         else { return UICollectionViewCell() }
 
         return cell
