@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		88E478357EA2E54F8CE34ACA /* Pods_image_search_task.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664EEEB23AA3A0381274986A /* Pods_image_search_task.framework */; };
 		AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3A729ADCE890090D643 /* AppDelegate.swift */; };
 		AB0FA3AA29ADCE890090D643 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */; };
 		AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B13A82E86DB00B63EA121E7 /* Pods-image-search-task.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.release.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.release.xcconfig"; sourceTree = "<group>"; };
+		664EEEB23AA3A0381274986A /* Pods_image_search_task.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_image_search_task.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0FA3A429ADCE890090D643 /* image-search-task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "image-search-task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0FA3A729ADCE890090D643 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB0FA3B329ADCE8B0090D643 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB0FA3B529ADCE8B0090D643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +33,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88E478357EA2E54F8CE34ACA /* Pods_image_search_task.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5172DA2322762CF5503591B6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */,
+				4B13A82E86DB00B63EA121E7 /* Pods-image-search-task.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		AB0FA39B29ADCE890090D643 = {
 			isa = PBXGroup;
 			children = (
 				AB0FA3A629ADCE890090D643 /* image-search-task */,
 				AB0FA3A529ADCE890090D643 /* Products */,
+				5172DA2322762CF5503591B6 /* Pods */,
+				F95C1114120956631984AC47 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,6 +105,14 @@
 			path = ImageSearch;
 			sourceTree = "<group>";
 		};
+		F95C1114120956631984AC47 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				664EEEB23AA3A0381274986A /* Pods_image_search_task.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -95,9 +120,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB0FA3B829ADCE8B0090D643 /* Build configuration list for PBXNativeTarget "image-search-task" */;
 			buildPhases = (
+				05517EE199865E083A6CE67A /* [CP] Check Pods Manifest.lock */,
 				AB0FA3A029ADCE890090D643 /* Sources */,
 				AB0FA3A129ADCE890090D643 /* Frameworks */,
 				AB0FA3A229ADCE890090D643 /* Resources */,
+				A9BCB0585C60E6A2675EB5FE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +179,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		05517EE199865E083A6CE67A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-image-search-task-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9BCB0585C60E6A2675EB5FE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-image-search-task/Pods-image-search-task-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-image-search-task/Pods-image-search-task-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-image-search-task/Pods-image-search-task-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AB0FA3A029ADCE890090D643 /* Sources */ = {
@@ -294,6 +363,7 @@
 		};
 		AB0FA3B929ADCE8B0090D643 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -325,6 +395,7 @@
 		};
 		AB0FA3BA29ADCE8B0090D643 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4B13A82E86DB00B63EA121E7 /* Pods-image-search-task.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
