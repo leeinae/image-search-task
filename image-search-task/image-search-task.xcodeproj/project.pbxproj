@@ -15,7 +15,7 @@
 		AB0FA3B429ADCE8B0090D643 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB0FA3B229ADCE8B0090D643 /* LaunchScreen.storyboard */; };
 		AB783F8729ADF1BE00A08022 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F8629ADF1BE00A08022 /* UIView+Extension.swift */; };
 		AB783F8929AE02D100A08022 /* SearchBarCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F8829AE02D100A08022 /* SearchBarCase.swift */; };
-		AB783F8E29AE2D0C00A08022 /* ResultItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F8D29AE2D0C00A08022 /* ResultItemCollectionViewCell.swift */; };
+		AB783F8E29AE2D0C00A08022 /* ImageItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F8D29AE2D0C00A08022 /* ImageItemCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +30,7 @@
 		AB0FA3B529ADCE8B0090D643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB783F8629ADF1BE00A08022 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		AB783F8829AE02D100A08022 /* SearchBarCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarCase.swift; sourceTree = "<group>"; };
-		AB783F8D29AE2D0C00A08022 /* ResultItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		AB783F8D29AE2D0C00A08022 /* ImageItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +108,7 @@
 			children = (
 				AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */,
 				AB783F8829AE02D100A08022 /* SearchBarCase.swift */,
-				AB783F8D29AE2D0C00A08022 /* ResultItemCollectionViewCell.swift */,
+				AB783F8D29AE2D0C00A08022 /* ImageItemCollectionViewCell.swift */,
 			);
 			path = ImageSearch;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 				AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */,
 				AB783F8729ADF1BE00A08022 /* UIView+Extension.swift in Sources */,
 				AB0FA3AA29ADCE890090D643 /* SceneDelegate.swift in Sources */,
-				AB783F8E29AE2D0C00A08022 /* ResultItemCollectionViewCell.swift in Sources */,
+				AB783F8E29AE2D0C00A08022 /* ImageItemCollectionViewCell.swift in Sources */,
 				AB783F8929AE02D100A08022 /* SearchBarCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
