@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let rootViewController = ViewController()
+        let rootViewController = ImageSearchViewController()
         rootViewController.view.backgroundColor = .white
 
         window = UIWindow(windowScene: windowScene)

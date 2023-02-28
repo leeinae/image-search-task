@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3A729ADCE890090D643 /* AppDelegate.swift */; };
 		AB0FA3AA29ADCE890090D643 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */; };
-		AB0FA3AC29ADCE890090D643 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3AB29ADCE890090D643 /* ViewController.swift */; };
+		AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */; };
 		AB0FA3B129ADCE8B0090D643 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */; };
 		AB0FA3B429ADCE8B0090D643 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB0FA3B229ADCE8B0090D643 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +18,7 @@
 		AB0FA3A429ADCE890090D643 /* image-search-task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "image-search-task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB0FA3A729ADCE890090D643 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AB0FA3AB29ADCE890090D643 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchViewController.swift; sourceTree = "<group>"; };
 		AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB0FA3B329ADCE8B0090D643 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB0FA3B529ADCE8B0090D643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,14 +54,38 @@
 		AB0FA3A629ADCE890090D643 /* image-search-task */ = {
 			isa = PBXGroup;
 			children = (
-				AB0FA3A729ADCE890090D643 /* AppDelegate.swift */,
-				AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */,
-				AB0FA3AB29ADCE890090D643 /* ViewController.swift */,
-				AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */,
-				AB0FA3B229ADCE8B0090D643 /* LaunchScreen.storyboard */,
-				AB0FA3B529ADCE8B0090D643 /* Info.plist */,
+				AB0FA3BD29ADE9800090D643 /* ImageSearch */,
+				AB0FA3BC29ADE9340090D643 /* Launch */,
+				AB0FA3BB29ADE9240090D643 /* Resource */,
 			);
 			path = "image-search-task";
+			sourceTree = "<group>";
+		};
+		AB0FA3BB29ADE9240090D643 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */,
+				AB0FA3B529ADCE8B0090D643 /* Info.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		AB0FA3BC29ADE9340090D643 /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				AB0FA3A729ADCE890090D643 /* AppDelegate.swift */,
+				AB0FA3A929ADCE890090D643 /* SceneDelegate.swift */,
+				AB0FA3B229ADCE8B0090D643 /* LaunchScreen.storyboard */,
+			);
+			path = Launch;
+			sourceTree = "<group>";
+		};
+		AB0FA3BD29ADE9800090D643 /* ImageSearch */ = {
+			isa = PBXGroup;
+			children = (
+				AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */,
+			);
+			path = ImageSearch;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,7 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB0FA3AC29ADCE890090D643 /* ViewController.swift in Sources */,
+				AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */,
 				AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */,
 				AB0FA3AA29ADCE890090D643 /* SceneDelegate.swift in Sources */,
 			);
@@ -277,7 +301,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G7SD8523Y3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "image-search-task/Info.plist";
+				INFOPLIST_FILE = "image-search-task/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -308,7 +332,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G7SD8523Y3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "image-search-task/Info.plist";
+				INFOPLIST_FILE = "image-search-task/Resource/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
