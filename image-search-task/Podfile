@@ -8,5 +8,7 @@ target 'image-search-task' do
   # Pods for image-search-task
   pod 'SnapKit', '= 5.6.0'
   pod 'Alamofire', '= 5.6.4'
+  pod 'RxSwift', '= 6.5.0'
+  pod 'RxCocoa', '= 6.5.0'
 
 end
