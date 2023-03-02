@@ -26,6 +26,11 @@ struct ImageSearchDTO: Decodable {
     }
 
     func toDomain() -> ImageItem {
-        .init(url: thumbnailURL ?? "", width: width ?? 0, height: height ?? 0)
+        .init(
+            url: imageURL ?? "",
+            displayName: displaySiteName ?? "",
+            width: CGFloat(width ?? 0),
+            height: CGFloat(height ?? 0)
+        )
     }
 }

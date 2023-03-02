@@ -9,6 +9,7 @@ import Foundation
 
 struct ImageItem {
     let url: String
-    let width: Int
-    let height: Int
+    let displayName: String
+    let width: CGFloat
+    let height: CGFloat
 }

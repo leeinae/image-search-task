@@ -10,6 +10,7 @@ import RxSwift
 
 final class ImageSearchViewModel {
     var imageList: [ImageItem] = []
+    var bookmarkList: [Int] = []
 
     private let imageSearchUseCase: ImageSearchUseCase
     private let disposeBag = DisposeBag()
@@ -35,12 +36,6 @@ final class ImageSearchViewModel {
             .subscribe { [weak self] keyword in
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
             }
-            .disposed(by: disposeBag)
-
-        input.selectedScopeIndex
-            .subscribe(onNext: { scope in
-                print(scope)
-            })
             .disposed(by: disposeBag)
 
         imageSearchUseCase.resultList

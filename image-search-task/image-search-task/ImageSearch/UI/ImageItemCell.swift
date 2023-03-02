@@ -5,6 +5,7 @@
 //  Created by inae Lee on 2023/02/28.
 //
 
+import SDWebImage
 import SnapKit
 import UIKit
 
@@ -13,6 +14,7 @@ final class ImageItemCell: UICollectionViewCell {
 
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFill
         view.backgroundColor = .gray
         return view
     }()
@@ -56,6 +58,9 @@ final class ImageItemCell: UICollectionViewCell {
     }
 
     func updateUI(_ model: ImageItem) {
-//        model
+        guard let url = URL(string: model.url)
+        else { return }
+
+        thumbnailView.sd_setImage(with: url)
     }
 }
