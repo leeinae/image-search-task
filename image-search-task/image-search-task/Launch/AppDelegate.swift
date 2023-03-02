@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         guard #unavailable(iOS 13) else { return true }
 
-        let rootViewController = ImageSearchViewController()
+        let imageSearchService = SearchRepository()
+        let imageSearchViewModel =  ImageSearchViewModel(imageSearchUseCase: ImageSearchUseCase(searchService: imageSearchService))
+        let rootViewController = ImageSearchViewController(imageSearchViewModel)
         rootViewController.view.backgroundColor = .red
 
         window = UIWindow()

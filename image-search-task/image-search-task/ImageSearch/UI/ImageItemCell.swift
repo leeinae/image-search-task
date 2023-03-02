@@ -1,5 +1,5 @@
 //
-//  ResultItemCollectionViewCell.swift
+//  ImageItemCell.swift
 //  image-search-task
 //
 //  Created by inae Lee on 2023/02/28.
@@ -8,8 +8,8 @@
 import SnapKit
 import UIKit
 
-final class ImageItemCollectionViewCell: UICollectionViewCell {
-    static let identifier = String(describing: ImageItemCollectionViewCell.self)
+final class ImageItemCell: UICollectionViewCell {
+    static let identifier = String(describing: ImageItemCell.self)
 
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
@@ -53,5 +53,9 @@ final class ImageItemCollectionViewCell: UICollectionViewCell {
             make.bottom.trailing.equalToSuperview()
             make.size.equalTo(44)
         }
+    }
+
+    func updateUI(_ model: ImageItem) {
+//        model
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ImageSearchResponse: Decodable {
+struct ImageSearchDTO: Decodable {
     let collection: String?
     let thumbnailURL: String?
     let imageURL: String?
@@ -23,5 +23,9 @@ struct ImageSearchResponse: Decodable {
         case imageURL = "image_url"
         case displaySiteName = "display_sitename"
         case docURL = "doc_url"
+    }
+
+    func toDomain() -> ImageItem {
+        .init(url: thumbnailURL ?? "", width: width ?? 0, height: height ?? 0)
     }
 }

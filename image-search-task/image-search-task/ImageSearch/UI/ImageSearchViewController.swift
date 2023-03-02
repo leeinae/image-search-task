@@ -11,6 +11,9 @@ import SnapKit
 import UIKit
 
 final class ImageSearchViewController: UIViewController {
+    var viewModel: ImageSearchViewModel
+    private let disposeBag = DisposeBag()
+
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.scopeButtonTitles = SearchBarCase.allCases.map(\.description)
@@ -25,8 +28,8 @@ final class ImageSearchViewController: UIViewController {
             collectionViewLayout: collectionViewLayout
         )
         view.register(
-            ImageItemCollectionViewCell.self,
-            forCellWithReuseIdentifier: ImageItemCollectionViewCell.identifier
+            ImageItemCell.self,
+            forCellWithReuseIdentifier: ImageItemCell.identifier
         )
         view.dataSource = self
         return view
@@ -39,17 +42,20 @@ final class ImageSearchViewController: UIViewController {
         return layout
     }()
 
-    private let disposeBag = DisposeBag()
+    init(_ viewModel: ImageSearchViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
         bind()
-
-        NetworkProvider.shared.request(SearchImageAPI.searchImage("zz"), ImageSearchResponse.self)
-            .subscribe(onDisposed: {})
-            .disposed(by: disposeBag)
     }
 
     private func setupUI() {
@@ -67,10 +73,17 @@ final class ImageSearchViewController: UIViewController {
     }
 
     private func bind() {
-        searchBar.rx.selectedScopeButtonIndex
-            .subscribe { [weak self] index in
+        let input = ImageSearchViewModel.Input(
+            didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
+            selectedScopeIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
+        )
+
+        let output = viewModel.transform(from: input, disposeBag: disposeBag)
+        output.didLoadData
+            .filter { $0 }
+            .subscribe(onNext: { [weak self] _ in
                 self?.collectionView.reloadData()
-            }
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -80,7 +93,7 @@ extension ImageSearchViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        searchBar.selectedScopeButtonIndex == 0 ? 100 : 0
+        return searchBar.selectedScopeButtonIndex == 0 ? viewModel.imageList.count : 0
     }
 
     func collectionView(
@@ -88,9 +101,9 @@ extension ImageSearchViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageItemCollectionViewCell.identifier,
+            withReuseIdentifier: ImageItemCell.identifier,
             for: indexPath
-        ) as? ImageItemCollectionViewCell
+        ) as? ImageItemCell
         else { return UICollectionViewCell() }
 
         return cell

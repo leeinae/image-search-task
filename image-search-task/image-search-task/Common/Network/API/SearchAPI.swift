@@ -7,21 +7,21 @@
 
 import Foundation
 
-enum SearchImageAPI {
-    case searchImage(String)
+enum SearchAPI {
+    case image(String)
 }
 
-extension SearchImageAPI: NetworkRequestable {
+extension SearchAPI: NetworkRequestable {
     var path: String {
         switch self {
-        case .searchImage:
+        case .image:
             return "/v2/search/image"
         }
     }
 
     var parameters: Parameters? {
         switch self {
-        case let .searchImage(query):
+        case let .image(query):
             return ["query": query]
         }
     }
