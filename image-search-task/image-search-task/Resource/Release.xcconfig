@@ -1,0 +1,14 @@
+//
+//  Release.xcconfig
+//  image-search-task
+//
+//  Created by inae Lee on 2023/03/02.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Pods/Target Support Files/Pods-image-search-task/Pods-image-search-task.release.xcconfig"
+
+API_HOST = https://dapi.kakao.com
+KAKAO_REST_API_KEY = 4650ef217262c44d64d37bfb47c7ea21

@@ -21,7 +21,7 @@ protocol NetworkRequestable {
 
 extension NetworkRequestable {
     var baseURL: String {
-        "https://dapi.kakao.com"
+        Environment.apiHost
     }
 
     var path: String {
@@ -38,7 +38,7 @@ extension NetworkRequestable {
 
     var headers: HTTPHeaders {
         [
-            "Authorization": "KakaoAK 4650ef217262c44d64d37bfb47c7ea21"
+            "Authorization": "KakaoAK \(Environment.kakaoAPIKey)"
         ]
     }
 }

@@ -48,6 +48,7 @@ final class ImageSearchViewController: UIViewController {
         bind()
 
         NetworkProvider.shared.request(SearchImageAPI.searchImage("zz"), ImageSearchResponse.self)
+            .subscribe(onDisposed: {})
             .disposed(by: disposeBag)
     }
 

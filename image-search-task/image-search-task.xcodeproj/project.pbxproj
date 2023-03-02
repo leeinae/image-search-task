@@ -21,6 +21,7 @@
 		AB783F9729AF992D00A08022 /* SearchImageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F9629AF992D00A08022 /* SearchImageAPI.swift */; };
 		AB783F9B29AFACAA00A08022 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F9A29AFACAA00A08022 /* ResponseModel.swift */; };
 		AB783F9D29AFAD5C00A08022 /* ImageSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783F9C29AFAD5C00A08022 /* ImageSearchResponse.swift */; };
+		AB783FA329B07A5A00A08022 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB783FA229B07A5A00A08022 /* Environment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,9 @@
 		AB783F9629AF992D00A08022 /* SearchImageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageAPI.swift; sourceTree = "<group>"; };
 		AB783F9A29AFACAA00A08022 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		AB783F9C29AFAD5C00A08022 /* ImageSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResponse.swift; sourceTree = "<group>"; };
+		AB783FA029B0768C00A08022 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		AB783FA129B0769500A08022 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		AB783FA229B07A5A00A08022 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +104,8 @@
 			children = (
 				AB0FA3B029ADCE8B0090D643 /* Assets.xcassets */,
 				AB0FA3B529ADCE8B0090D643 /* Info.plist */,
+				AB783FA029B0768C00A08022 /* Debug.xcconfig */,
+				AB783FA129B0769500A08022 /* Release.xcconfig */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -138,6 +144,7 @@
 				AB783F9029AF249500A08022 /* NetworkProvider.swift */,
 				AB783F9229AF260D00A08022 /* NetworkRequestable.swift */,
 				AB783F9A29AFACAA00A08022 /* ResponseModel.swift */,
+				AB783FA229B07A5A00A08022 /* Environment.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -291,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB783F9129AF249500A08022 /* NetworkProvider.swift in Sources */,
+				AB783FA329B07A5A00A08022 /* Environment.swift in Sources */,
 				AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */,
 				AB783F9329AF260D00A08022 /* NetworkRequestable.swift in Sources */,
 				AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */,
@@ -434,7 +442,7 @@
 		};
 		AB0FA3B929ADCE8B0090D643 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */;
+			baseConfigurationReference = AB783FA029B0768C00A08022 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -466,7 +474,7 @@
 		};
 		AB0FA3BA29ADCE8B0090D643 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B13A82E86DB00B63EA121E7 /* Pods-image-search-task.release.xcconfig */;
+			baseConfigurationReference = AB783FA129B0769500A08022 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
