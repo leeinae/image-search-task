@@ -32,6 +32,8 @@
 		ABA1E71629B1E66F003F1237 /* BookmarkUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E71529B1E66F003F1237 /* BookmarkUseCase.swift */; };
 		ABA1E71F29B2539A003F1237 /* ImageEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E71D29B2539A003F1237 /* ImageEntity+CoreDataClass.swift */; };
 		ABA1E72029B2539A003F1237 /* ImageEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E71E29B2539A003F1237 /* ImageEntity+CoreDataProperties.swift */; };
+		ABA1E72229B255BF003F1237 /* ImageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72129B255BE003F1237 /* ImageListView.swift */; };
+		ABA1E72429B255CA003F1237 /* BookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72329B255CA003F1237 /* BookmarkListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +67,8 @@
 		ABA1E71529B1E66F003F1237 /* BookmarkUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkUseCase.swift; sourceTree = "<group>"; };
 		ABA1E71D29B2539A003F1237 /* ImageEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		ABA1E71E29B2539A003F1237 /* ImageEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		ABA1E72129B255BE003F1237 /* ImageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListView.swift; sourceTree = "<group>"; };
+		ABA1E72329B255CA003F1237 /* BookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListView.swift; sourceTree = "<group>"; };
 		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,6 +189,8 @@
 			children = (
 				AB0FA3AB29ADCE890090D643 /* ImageSearchViewController.swift */,
 				AB783F8D29AE2D0C00A08022 /* ImageItemCell.swift */,
+				ABA1E72129B255BE003F1237 /* ImageListView.swift */,
+				ABA1E72329B255CA003F1237 /* BookmarkListView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -373,6 +379,7 @@
 				AB783FA329B07A5A00A08022 /* Environment.swift in Sources */,
 				ABA1E72029B2539A003F1237 /* ImageEntity+CoreDataProperties.swift in Sources */,
 				AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */,
+				ABA1E72429B255CA003F1237 /* BookmarkListView.swift in Sources */,
 				AB783F9329AF260D00A08022 /* NetworkRequestable.swift in Sources */,
 				AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */,
 				AB783F9D29AFAD5C00A08022 /* ImageSearchDTO.swift in Sources */,
@@ -384,6 +391,7 @@
 				AB783F8E29AE2D0C00A08022 /* ImageItemCell.swift in Sources */,
 				AB783F8929AE02D100A08022 /* SearchBarCase.swift in Sources */,
 				ABA1E71F29B2539A003F1237 /* ImageEntity+CoreDataClass.swift in Sources */,
+				ABA1E72229B255BF003F1237 /* ImageListView.swift in Sources */,
 				ABA1E71629B1E66F003F1237 /* BookmarkUseCase.swift in Sources */,
 				AB8E221E29B0972600BA0283 /* ImageItem.swift in Sources */,
 				AB783FA729B0888A00A08022 /* SearchRepository.swift in Sources */,

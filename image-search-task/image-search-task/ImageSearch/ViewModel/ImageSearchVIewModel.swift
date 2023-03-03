@@ -26,39 +26,42 @@ final class ImageSearchViewModel {
     }
 
     struct Input {
-        let viewWillAppear: Observable<Void>
-        let didChangeImageSearchQuery: Observable<String>
-        let didTapBookmarkButton: Observable<ImageItem>
-        let didChangeSelectedScopeButtonIndex: Observable<Int>
+        let viewWillAppear: Observable<Void>?
+        let didChangeImageSearchQuery: Observable<String>?
+        let didTapBookmarkButton: Observable<ImageItem>?
+        let didChangeSelectedScopeButtonIndex: Observable<Int>?
     }
 
     struct Output {
         var didLoadData = PublishRelay<Bool>()
+        var willChangeSubView = BehaviorRelay<SearchBarCase>(value: .result)
     }
 
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
 
-        input.viewWillAppear
+        input.viewWillAppear?
             .subscribe(onNext: { [weak self] in
                 self?.bookmarkUseCase.fetchBookmarkList()
             })
             .disposed(by: disposeBag)
 
-        input.didChangeSelectedScopeButtonIndex
-            .subscribe(onNext: { _ in
+        input.didChangeSelectedScopeButtonIndex?
+            .subscribe(onNext: { index in
+                let mode = SearchBarCase(rawValue: index) ?? .result
+                output.willChangeSubView.accept(mode)
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
 
-        input.didChangeImageSearchQuery
+        input.didChangeImageSearchQuery?
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe { [weak self] keyword in
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
             }
             .disposed(by: disposeBag)
 
-        input.didTapBookmarkButton
+        input.didTapBookmarkButton?
             .subscribe(onNext: { [weak self] item in
                 item.isBookmark ? self?.bookmarkUseCase.remove(with: item) : self?.bookmarkUseCase.save(with: item)
                 self?.bookmarkUseCase.fetchBookmarkList()

@@ -47,6 +47,7 @@ final class ImageItemCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
+        thumbnailView.image = nil
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
