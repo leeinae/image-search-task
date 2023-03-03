@@ -17,20 +17,20 @@ protocol ImageSearchUseCaseProtocol {
 final class ImageSearchUseCase: ImageSearchUseCaseProtocol {
     var resultList: PublishSubject<[ImageItem]> = .init()
 
-    private let searchService: SearchRepositoryProtocol
+    private let searchRespository: SearchRepositoryProtocol
     private let disposeBag = DisposeBag()
 
-    init(searchService: SearchRepositoryProtocol) {
-        self.searchService = searchService
+    init(searchRespository: SearchRepositoryProtocol) {
+        self.searchRespository = searchRespository
     }
 
     func fetchImageSearchResult(query: String) {
-        searchService.fetchImageSearchResult(by: query)
+        searchRespository.fetchImageSearchResult(by: query)
             .subscribe { [weak self] result in
-                print(result)
                 switch result {
-                case let .success(model):
-                    self?.resultList.onNext(model.documents.map { $0.toDomain() })
+                case let .success(data):
+                    let imageList = data.documents.map { $0.toDomain() }
+                    self?.resultList.onNext(imageList)
                 case let .failure(error):
                     print(error)
                 }

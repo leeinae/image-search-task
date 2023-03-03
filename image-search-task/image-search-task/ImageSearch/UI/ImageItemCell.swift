@@ -5,12 +5,15 @@
 //  Created by inae Lee on 2023/02/28.
 //
 
+import RxCocoa
+import RxSwift
 import SDWebImage
 import SnapKit
 import UIKit
 
 final class ImageItemCell: UICollectionViewCell {
     static let identifier = String(describing: ImageItemCell.self)
+    var disposeBag = DisposeBag()
 
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
@@ -43,6 +46,11 @@ final class ImageItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
     private func setupUI() {
         contentView.addSubviews([thumbnailView, bookmarkButton])
 
@@ -58,9 +66,28 @@ final class ImageItemCell: UICollectionViewCell {
     }
 
     func updateUI(_ model: ImageItem) {
-        guard let url = URL(string: model.url)
-        else { return }
+        guard let url = URL(string: model.url) else { return }
 
         thumbnailView.sd_setImage(with: url)
+        bookmarkButton.isSelected = model.isBookmark
+    }
+
+    func bindAction(_ model: ImageItem) -> Observable<ImageItem> {
+        bookmarkButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.bookmarkButton.isSelected.toggle()
+            })
+            .disposed(by: disposeBag)
+
+        return bookmarkButton.rx.tap.compactMap { [weak self] _ in
+            guard let self else { return nil }
+
+            return ImageItem(
+                url: model.url,
+                width: model.width,
+                height: model.height,
+                isBookmark: !self.bookmarkButton.isSelected
+            )
+        }
     }
 }

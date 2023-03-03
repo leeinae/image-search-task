@@ -10,18 +10,25 @@ import RxSwift
 
 final class ImageSearchViewModel {
     var imageList: [ImageItem] = []
-    var bookmarkList: [Int] = []
+    var bookmarkList: [ImageItem] = []
 
-    private let imageSearchUseCase: ImageSearchUseCase
+    private let imageSearchUseCase: ImageSearchUseCaseProtocol
+    private let bookmarkUseCase: BookmarkUseCaseProtocol
+
     private let disposeBag = DisposeBag()
 
-    init(imageSearchUseCase: ImageSearchUseCase) {
+    init(
+        imageSearchUseCase: ImageSearchUseCaseProtocol,
+        bookmarkUseCase: BookmarkUseCaseProtocol
+    ) {
         self.imageSearchUseCase = imageSearchUseCase
+        self.bookmarkUseCase = bookmarkUseCase
     }
 
     struct Input {
+        let viewWillAppear: Observable<Void>
         let didChangeImageSearchQuery: Observable<String>
-        var selectedScopeIndex: Observable<Int>
+        let didTapBookmarkButton: Observable<ImageItem>
     }
 
     struct Output {
@@ -31,6 +38,12 @@ final class ImageSearchViewModel {
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
 
+        input.viewWillAppear
+            .subscribe(onNext: { [weak self] in
+                self?.bookmarkUseCase.fetchBookmarkList()
+            })
+            .disposed(by: disposeBag)
+
         input.didChangeImageSearchQuery
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe { [weak self] keyword in
@@ -38,13 +51,38 @@ final class ImageSearchViewModel {
             }
             .disposed(by: disposeBag)
 
+        input.didTapBookmarkButton
+            .subscribe(onNext: { [weak self] item in
+                item.isBookmark ? self?.bookmarkUseCase.remove(with: item) : self?.bookmarkUseCase.save(with: item)
+                self?.bookmarkUseCase.fetchBookmarkList()
+            }).disposed(by: disposeBag)
+
         imageSearchUseCase.resultList
             .subscribe(onNext: { [weak self] result in
-                self?.imageList = result
+                guard let self else { return }
+
+                self.imageList = self.convertedBookmarkImage(result, self.bookmarkList)
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
 
+        bookmarkUseCase.bookmarkList
+            .subscribe(onNext: { [weak self] result in
+                guard let self else { return }
+
+                let bookmarkedImageList = self.convertedBookmarkImage(self.imageList, result)
+                self.imageList = bookmarkedImageList
+                self.bookmarkList = result
+            })
+            .disposed(by: disposeBag)
+
         return output
+    }
+
+    private func convertedBookmarkImage(_ images: [ImageItem], _ bookmarkList: [ImageItem]) -> [ImageItem] {
+        images.map { item -> ImageItem in
+            let isBookmark = bookmarkList.contains(where: { item.url == $0.url })
+            return .init(url: item.url, width: item.width, height: item.height, isBookmark: isBookmark)
+        }
     }
 }

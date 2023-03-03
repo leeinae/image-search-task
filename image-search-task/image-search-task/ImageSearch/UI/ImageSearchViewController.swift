@@ -12,6 +12,7 @@ import UIKit
 
 final class ImageSearchViewController: UIViewController {
     var viewModel: ImageSearchViewModel
+    private let bookmarkButtonTapAction = PublishSubject<ImageItem>()
     private let disposeBag = DisposeBag()
 
     private let searchBar: UISearchBar = {
@@ -75,8 +76,9 @@ final class ImageSearchViewController: UIViewController {
 
     private func bind() {
         let input = ImageSearchViewModel.Input(
+            viewWillAppear: rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in },
             didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
-            selectedScopeIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
+            didTapBookmarkButton: bookmarkButtonTapAction
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -109,6 +111,9 @@ extension ImageSearchViewController: UICollectionViewDataSource {
 
         let imageItem = viewModel.imageList[indexPath.row]
         cell.updateUI(imageItem)
+        cell.bindAction(imageItem)
+            .bind(to: bookmarkButtonTapAction)
+            .disposed(by: cell.disposeBag)
 
         return cell
     }
@@ -127,6 +132,8 @@ extension ImageSearchViewController: UICollectionViewDelegateFlowLayout {
     }
 
     private func calcRatioHeight(width: CGFloat, height: CGFloat) -> CGFloat {
+        guard !width.isZero else { return 100 }
+
         let ratio = UIScreen.main.bounds.width / width
         return height * ratio
     }

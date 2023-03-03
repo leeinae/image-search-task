@@ -17,13 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         guard #unavailable(iOS 13) else { return true }
 
-        let imageSearchService = SearchRepository()
-        let imageSearchViewModel =  ImageSearchViewModel(imageSearchUseCase: ImageSearchUseCase(searchService: imageSearchService))
-        let rootViewController = ImageSearchViewController(imageSearchViewModel)
-        rootViewController.view.backgroundColor = .red
+        let imageSearchRepository = SearchRepository()
+        let bookmarkRepository = BookmarkRepository()
+
+        let imageSearchViewModel = ImageSearchViewModel(
+            imageSearchUseCase: ImageSearchUseCase(searchRespository: imageSearchRepository),
+            bookmarkUseCase: BookmarkUseCase(bookmarkRepository: bookmarkRepository)
+        )
+        let imageSearchViewController = ImageSearchViewController(imageSearchViewModel)
+        imageSearchViewController.view.backgroundColor = .red
 
         window = UIWindow()
-        window?.rootViewController = rootViewController
+        window?.rootViewController = imageSearchViewController
         window?.makeKeyAndVisible()
 
         return true
