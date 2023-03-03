@@ -11,6 +11,7 @@ import RxSwift
 final class ImageSearchViewModel {
     var imageList: [ImageItem] = []
     var bookmarkList: [ImageItem] = []
+    var visibleCellType: CellType = .image
 
     private let imageSearchUseCase: ImageSearchUseCaseProtocol
     private let bookmarkUseCase: BookmarkUseCaseProtocol
@@ -34,6 +35,7 @@ final class ImageSearchViewModel {
 
     struct Output {
         var didLoadData = PublishRelay<Bool>()
+        var willShowAlert = PublishRelay<String>()
         var willChangeSubView = BehaviorRelay<SearchBarCase>(value: .result)
     }
 
@@ -55,6 +57,7 @@ final class ImageSearchViewModel {
             .disposed(by: disposeBag)
 
         input.didChangeImageSearchQuery?
+            .filter { !$0.isEmpty }
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe { [weak self] keyword in
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
@@ -72,8 +75,13 @@ final class ImageSearchViewModel {
                 guard let self else { return }
 
                 self.imageList = self.convertedBookmarkImage(result, self.bookmarkList)
+                self.visibleCellType = result.isEmpty ? .empty : .image
                 output.didLoadData.accept(true)
             })
+            .disposed(by: disposeBag)
+
+        imageSearchUseCase.networkErrorMessage
+            .bind(to: output.willShowAlert)
             .disposed(by: disposeBag)
 
         bookmarkUseCase.bookmarkList

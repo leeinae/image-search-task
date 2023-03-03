@@ -18,7 +18,8 @@ final class ImageItemCell: UICollectionViewCell {
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.backgroundColor = .gray
+        view.clipsToBounds = true
+        view.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
         return view
     }()
 
@@ -69,8 +70,14 @@ final class ImageItemCell: UICollectionViewCell {
     func updateUI(_ model: ImageItem) {
         guard let url = URL(string: model.url) else { return }
 
-        thumbnailView.sd_setImage(with: url)
         bookmarkButton.isSelected = model.isBookmark
+        thumbnailView.sd_setImage(with: url) { [weak self] (image, error, _, _) in
+            if error != nil {
+                self?.thumbnailView.image = UIImage(named: "ic-broken")
+            } else {
+                self?.thumbnailView.image = image
+            }
+        }
     }
 
     func bindAction(_ model: ImageItem) -> Observable<ImageItem> {

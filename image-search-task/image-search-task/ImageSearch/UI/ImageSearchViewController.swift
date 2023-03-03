@@ -75,5 +75,27 @@ final class ImageSearchViewController: UIViewController {
                 self?.bookmarkListView.isHidden = mode == .result
             })
             .disposed(by: disposeBag)
+
+        output.willShowAlert
+            .subscribe(onNext: { [weak self] message in
+                self?.showAlert(message: message)
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+extension ImageSearchViewController {
+    private func showAlert(message: String) {
+        let alert = UIAlertController(
+            title: "알림",
+            message: message,
+            preferredStyle: .alert
+        )
+        let confirm = UIAlertAction(
+            title: "확인",
+            style: .default
+        )
+        alert.addAction(confirm)
+        present(alert, animated: false, completion: nil)
     }
 }
