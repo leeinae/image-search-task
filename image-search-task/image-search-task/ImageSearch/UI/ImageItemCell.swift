@@ -18,6 +18,7 @@ final class ImageItemCell: UICollectionViewCell {
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         view.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
         return view
     }()
