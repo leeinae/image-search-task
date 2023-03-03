@@ -63,8 +63,8 @@
 		ABA1E70929B1CFC6003F1237 /* BookmarkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkRepository.swift; sourceTree = "<group>"; };
 		ABA1E71329B1DB4F003F1237 /* CoreDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStore.swift; sourceTree = "<group>"; };
 		ABA1E71529B1E66F003F1237 /* BookmarkUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkUseCase.swift; sourceTree = "<group>"; };
-		ABA1E71729B1EB94003F1237 /* ImageEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ImageEntity+CoreDataClass.swift"; path = "image-search-task/ImageSearch/Domain/Model/ImageEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		ABA1E71829B1EB94003F1237 /* ImageEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ImageEntity+CoreDataProperties.swift"; path = "image-search-task/ImageSearch/Domain/Model/ImageEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		ABA1E71729B1EB94003F1237 /* ImageEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ImageEntity+CoreDataClass.swift"; path = "image-search-task/Domain/Model/ImageEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		ABA1E71829B1EB94003F1237 /* ImageEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ImageEntity+CoreDataProperties.swift"; path = "image-search-task/Domain/Model/ImageEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +111,8 @@
 			isa = PBXGroup;
 			children = (
 				AB783F8F29AF1ACF00A08022 /* Common */,
+				AB8E222129B0D30E00BA0283 /* Domain */,
+				AB783F9429AF990E00A08022 /* Data */,
 				AB0FA3BD29ADE9800090D643 /* ImageSearch */,
 				AB0FA3BC29ADE9340090D643 /* Launch */,
 				AB0FA3BB29ADE9240090D643 /* Resource */,
@@ -142,10 +144,8 @@
 		AB0FA3BD29ADE9800090D643 /* ImageSearch */ = {
 			isa = PBXGroup;
 			children = (
-				AB8E222129B0D30E00BA0283 /* Domain */,
 				AB783F9829AFAC6600A08022 /* ViewModel */,
 				AB783F9529AF991800A08022 /* UI */,
-				AB783F9429AF990E00A08022 /* Data */,
 			);
 			path = ImageSearch;
 			sourceTree = "<group>";
