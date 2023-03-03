@@ -35,6 +35,7 @@ final class ImageSearchViewModel {
 
     struct Output {
         var didLoadData = PublishRelay<Bool>()
+        var willShowAlert = PublishRelay<String>()
         var willChangeSubView = BehaviorRelay<SearchBarCase>(value: .result)
     }
 
@@ -77,6 +78,10 @@ final class ImageSearchViewModel {
                 self.visibleCellType = result.isEmpty ? .empty : .image
                 output.didLoadData.accept(true)
             })
+            .disposed(by: disposeBag)
+
+        imageSearchUseCase.networkErrorMessage
+            .bind(to: output.willShowAlert)
             .disposed(by: disposeBag)
 
         bookmarkUseCase.bookmarkList

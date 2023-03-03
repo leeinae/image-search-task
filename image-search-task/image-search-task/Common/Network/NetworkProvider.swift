@@ -9,12 +9,6 @@ import Alamofire
 import Foundation
 import RxSwift
 
-enum NetworkError: Error {
-    case wrongEndpoint
-    case wrongRequest
-    case responseError(AFError)
-}
-
 final class NetworkProvider {
     static let shared = NetworkProvider()
 
@@ -42,7 +36,14 @@ final class NetworkProvider {
                     case let .success(data):
                         single(.success(data))
                     case let .failure(error):
-                        single(.failure(NetworkError.responseError(error)))
+                        switch response.response?.statusCode {
+                        case 200:
+                            single(.failure(NetworkError.parsingError))
+                        case 401, 402:
+                            single(.failure(NetworkError.apiTokenError))
+                        default:
+                            single(.failure(NetworkError.responseError(error)))
+                        }
                     }
                 }
                 return Disposables.create()

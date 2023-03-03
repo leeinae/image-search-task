@@ -10,12 +10,14 @@ import RxSwift
 
 protocol ImageSearchUseCaseProtocol {
     var resultList: PublishSubject<[ImageItem]> { get set }
+    var networkErrorMessage: PublishSubject<String> { get set }
 
     func fetchImageSearchResult(query: String)
 }
 
 final class ImageSearchUseCase: ImageSearchUseCaseProtocol {
     var resultList: PublishSubject<[ImageItem]> = .init()
+    var networkErrorMessage: PublishSubject<String> = .init()
 
     private let searchRespository: SearchRepositoryProtocol
     private let disposeBag = DisposeBag()
@@ -27,14 +29,25 @@ final class ImageSearchUseCase: ImageSearchUseCaseProtocol {
     func fetchImageSearchResult(query: String) {
         searchRespository.fetchImageSearchResult(by: query)
             .subscribe { [weak self] result in
+                guard let self else { return }
+                
                 switch result {
                 case let .success(data):
                     let imageList = data.documents.map { $0.toDomain() }
-                    self?.resultList.onNext(imageList)
+                    self.resultList.onNext(imageList)
+
                 case let .failure(error):
-                    print(error)
+                    let message = self.makeErrorMessage(error)
+                    self.networkErrorMessage.onNext(message)
                 }
             }
             .disposed(by: disposeBag)
+    }
+
+    private func makeErrorMessage(_ error: Error) -> String {
+        guard let error = error as? NetworkError
+        else { return "알 수 없는 에러가 발생했어요." }
+
+        return error.localizedDescription
     }
 }
