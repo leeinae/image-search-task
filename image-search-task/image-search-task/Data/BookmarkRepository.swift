@@ -28,6 +28,7 @@ struct BookmarkRepository: BookmarkRepositoryProtocol {
             image.url = item.url
             image.width = Int16(item.width)
             image.height = Int16(item.height)
+            image.createdAt = Date()
         }
 
         context.performAndWait {

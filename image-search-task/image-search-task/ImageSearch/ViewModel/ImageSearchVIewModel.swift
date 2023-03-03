@@ -46,7 +46,7 @@ final class ImageSearchViewModel {
             .disposed(by: disposeBag)
 
         input.didChangeSelectedScopeButtonIndex
-            .subscribe(onNext: {  _ in
+            .subscribe(onNext: { _ in
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
@@ -79,7 +79,7 @@ final class ImageSearchViewModel {
 
                 let bookmarkedImageList = self.convertedBookmarkImage(self.imageList, result)
                 self.imageList = bookmarkedImageList
-                self.bookmarkList = result
+                self.bookmarkList = result.sorted(by: { $0.datetime > $1.datetime })
             })
             .disposed(by: disposeBag)
 

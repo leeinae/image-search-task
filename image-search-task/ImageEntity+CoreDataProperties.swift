@@ -2,7 +2,7 @@
 //  ImageEntity+CoreDataProperties.swift
 //  image-search-task
 //
-//  Created by inae Lee on 2023/03/03.
+//  Created by inae Lee on 2023/03/04.
 //
 //
 
@@ -14,8 +14,8 @@ public extension ImageEntity {
         NSFetchRequest<ImageEntity>(entityName: "ImageEntity")
     }
 
-    @NSManaged var url: String?
-    @NSManaged var datetime: Date?
-    @NSManaged var width: Int16
     @NSManaged var height: Int16
+    @NSManaged var url: String?
+    @NSManaged var width: Int16
+    @NSManaged var createdAt: Date?
 }

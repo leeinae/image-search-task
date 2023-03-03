@@ -2,7 +2,7 @@
 //  ImageEntity+CoreDataClass.swift
 //  image-search-task
 //
-//  Created by inae Lee on 2023/03/03.
+//  Created by inae Lee on 2023/03/04.
 //
 //
 
@@ -18,7 +18,8 @@ extension ImageEntity {
             url: url ?? "",
             width: CGFloat(width),
             height: CGFloat(height),
-            isBookmark: true
+            isBookmark: true,
+            datetime: createdAt ?? Date()
         )
     }
 }

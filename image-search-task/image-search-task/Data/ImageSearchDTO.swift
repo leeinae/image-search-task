@@ -26,10 +26,14 @@ struct ImageSearchDTO: Decodable {
     }
 
     func toDomain() -> ImageItem {
-        .init(
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+
+        return .init(
             url: imageURL ?? "",
             width: CGFloat(width ?? 0),
-            height: CGFloat(height ?? 0)
+            height: CGFloat(height ?? 0),
+            datetime: dateFormatter.date(from: datetime ?? "") ?? Date()
         )
     }
 }
