@@ -29,6 +29,7 @@ final class ImageSearchViewModel {
         let viewWillAppear: Observable<Void>
         let didChangeImageSearchQuery: Observable<String>
         let didTapBookmarkButton: Observable<ImageItem>
+        let didChangeSelectedScopeButtonIndex: Observable<Int>
     }
 
     struct Output {
@@ -41,6 +42,12 @@ final class ImageSearchViewModel {
         input.viewWillAppear
             .subscribe(onNext: { [weak self] in
                 self?.bookmarkUseCase.fetchBookmarkList()
+            })
+            .disposed(by: disposeBag)
+
+        input.didChangeSelectedScopeButtonIndex
+            .subscribe(onNext: {  _ in
+                output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
 

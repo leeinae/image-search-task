@@ -14,6 +14,11 @@ public class ImageEntity: NSManagedObject {}
 
 extension ImageEntity {
     func toDomain() -> ImageItem {
-        .init(url: url ?? "", width: CGFloat(width), height: CGFloat(height))
+        .init(
+            url: url ?? "",
+            width: CGFloat(width),
+            height: CGFloat(height),
+            isBookmark: true
+        )
     }
 }

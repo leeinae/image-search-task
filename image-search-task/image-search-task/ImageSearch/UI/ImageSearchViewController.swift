@@ -78,7 +78,8 @@ final class ImageSearchViewController: UIViewController {
         let input = ImageSearchViewModel.Input(
             viewWillAppear: rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in },
             didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
-            didTapBookmarkButton: bookmarkButtonTapAction
+            didTapBookmarkButton: bookmarkButtonTapAction,
+            didChangeSelectedScopeButtonIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
@@ -109,7 +110,8 @@ extension ImageSearchViewController: UICollectionViewDataSource {
         ) as? ImageItemCell
         else { return UICollectionViewCell() }
 
-        let imageItem = viewModel.imageList[indexPath.row]
+        let scopeCase = SearchBarCase(rawValue: searchBar.selectedScopeButtonIndex)
+        let imageItem = scopeCase == .result ? viewModel.imageList[indexPath.row] : viewModel.bookmarkList[indexPath.row]
         cell.updateUI(imageItem)
         cell.bindAction(imageItem)
             .bind(to: bookmarkButtonTapAction)
@@ -125,7 +127,17 @@ extension ImageSearchViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let item = viewModel.imageList[indexPath.row]
+        let scopeCase = SearchBarCase(rawValue: searchBar.selectedScopeButtonIndex)
+
+        var item: ImageItem
+        switch scopeCase {
+        case .result:
+            item = viewModel.imageList[indexPath.row]
+        case .bookmark:
+            item = viewModel.bookmarkList[indexPath.row]
+        case .none:
+            return .zero
+        }
         let height = calcRatioHeight(width: item.width, height: item.height)
 
         return .init(width: UIScreen.main.bounds.width, height: height + 44)
