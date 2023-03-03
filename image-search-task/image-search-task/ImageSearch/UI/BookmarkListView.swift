@@ -5,8 +5,8 @@
 //  Created by inae Lee on 2023/03/04.
 //
 
-import UIKit
 import RxSwift
+import UIKit
 
 final class BookmarkListView: UIView {
     private weak var viewModel: ImageSearchViewModel?
@@ -21,6 +21,11 @@ final class BookmarkListView: UIView {
         view.register(
             ImageItemCell.self,
             forCellWithReuseIdentifier: ImageItemCell.identifier
+        )
+        view.register(
+            BookmarkHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: BookmarkHeaderView.identifier
         )
         view.dataSource = self
         view.delegate = self
@@ -99,6 +104,22 @@ extension BookmarkListView: UICollectionViewDataSource {
 
         return cell
     }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                  ofKind: kind,
+                  withReuseIdentifier: BookmarkHeaderView.identifier,
+                  for: indexPath
+              ) as? BookmarkHeaderView
+        else { return UICollectionReusableView() }
+
+        return header
+    }
 }
 
 extension BookmarkListView: UICollectionViewDelegateFlowLayout {
@@ -120,5 +141,9 @@ extension BookmarkListView: UICollectionViewDelegateFlowLayout {
 
         let ratio = UIScreen.main.bounds.width / width
         return height * ratio
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: UIScreen.main.bounds.width, height: 44)
     }
 }

@@ -23,6 +23,14 @@ final class ImageItemCell: UICollectionViewCell {
         return view
     }()
 
+    private let checkButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "ic-check"), for: .selected)
+        button.setImage(UIImage(named: "ic-uncheck"), for: .normal)
+        button.isHidden = true
+        return button
+    }()
+
     private let bookmarkButton: UIButton = {
         let button = UIButton()
         if #available(iOS 13.0, *) {
@@ -54,7 +62,7 @@ final class ImageItemCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        contentView.addSubviews([thumbnailView, bookmarkButton])
+        contentView.addSubviews([thumbnailView, bookmarkButton, checkButton])
 
         thumbnailView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -65,13 +73,17 @@ final class ImageItemCell: UICollectionViewCell {
             make.bottom.trailing.equalToSuperview()
             make.size.equalTo(44)
         }
+
+        checkButton.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().inset(12)
+        }
     }
 
     func updateUI(_ model: ImageItem) {
         guard let url = URL(string: model.url) else { return }
 
         bookmarkButton.isSelected = model.isBookmark
-        thumbnailView.sd_setImage(with: url) { [weak self] (image, error, _, _) in
+        thumbnailView.sd_setImage(with: url) { [weak self] image, error, _, _ in
             if error != nil {
                 self?.thumbnailView.image = UIImage(named: "ic-broken")
             } else {
