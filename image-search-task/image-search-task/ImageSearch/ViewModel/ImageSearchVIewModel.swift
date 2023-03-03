@@ -56,6 +56,7 @@ final class ImageSearchViewModel {
             .disposed(by: disposeBag)
 
         input.didChangeImageSearchQuery?
+            .filter { !$0.isEmpty }
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe { [weak self] keyword in
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
