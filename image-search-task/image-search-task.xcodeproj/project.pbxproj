@@ -36,6 +36,7 @@
 		ABA1E72429B255CA003F1237 /* BookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72329B255CA003F1237 /* BookmarkListView.swift */; };
 		ABA1E72829B263F9003F1237 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72729B263F9003F1237 /* EmptyCell.swift */; };
 		ABA1E72A29B266CA003F1237 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72929B266CA003F1237 /* CellType.swift */; };
+		ABA1E72C29B270FE003F1237 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1E72B29B270FE003F1237 /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		ABA1E72329B255CA003F1237 /* BookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListView.swift; sourceTree = "<group>"; };
 		ABA1E72729B263F9003F1237 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		ABA1E72929B266CA003F1237 /* CellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellType.swift; sourceTree = "<group>"; };
+		ABA1E72B29B270FE003F1237 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		D5025A504E726CD066D3EB1B /* Pods-image-search-task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-image-search-task.debug.xcconfig"; path = "Target Support Files/Pods-image-search-task/Pods-image-search-task.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,6 +218,7 @@
 				AB783FA829B0917F00A08022 /* API */,
 				AB783F9029AF249500A08022 /* NetworkProvider.swift */,
 				AB783F9229AF260D00A08022 /* NetworkRequestable.swift */,
+				ABA1E72B29B270FE003F1237 /* NetworkError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				AB783FA329B07A5A00A08022 /* Environment.swift in Sources */,
 				ABA1E72029B2539A003F1237 /* ImageEntity+CoreDataProperties.swift in Sources */,
 				AB0FA3AC29ADCE890090D643 /* ImageSearchViewController.swift in Sources */,
+				ABA1E72C29B270FE003F1237 /* NetworkError.swift in Sources */,
 				ABA1E72429B255CA003F1237 /* BookmarkListView.swift in Sources */,
 				AB783F9329AF260D00A08022 /* NetworkRequestable.swift in Sources */,
 				AB0FA3A829ADCE890090D643 /* AppDelegate.swift in Sources */,
