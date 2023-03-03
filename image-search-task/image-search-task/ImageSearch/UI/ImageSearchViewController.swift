@@ -11,8 +11,8 @@ import SnapKit
 import UIKit
 
 final class ImageSearchViewController: UIViewController {
-    var viewModel: ImageSearchViewModel
-    private let disposeBag = DisposeBag()
+    private let viewModel: ImageSearchViewModel
+    private var disposeBag = DisposeBag()
 
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -22,25 +22,8 @@ final class ImageSearchViewController: UIViewController {
         return searchBar
     }()
 
-    private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: collectionViewLayout
-        )
-        view.register(
-            ImageItemCell.self,
-            forCellWithReuseIdentifier: ImageItemCell.identifier
-        )
-        view.dataSource = self
-        view.delegate = self
-        return view
-    }()
-
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        return layout
-    }()
+    private lazy var imageListView = ImageListView(viewModel)
+    private lazy var bookmarkListView = BookmarkListView(viewModel)
 
     init(_ viewModel: ImageSearchViewModel) {
         self.viewModel = viewModel
@@ -60,74 +43,37 @@ final class ImageSearchViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.addSubviews([searchBar, collectionView])
+        view.addSubviews([searchBar, imageListView, bookmarkListView])
 
         searchBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()
         }
 
-        collectionView.snp.makeConstraints { make in
+        imageListView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+
+        bookmarkListView.snp.makeConstraints { make in
+            make.edges.equalTo(imageListView)
         }
     }
 
     private func bind() {
         let input = ImageSearchViewModel.Input(
+            viewWillAppear: rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in },
             didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
-            selectedScopeIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
+            didTapBookmarkButton: nil,
+            didChangeSelectedScopeButtonIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)
-        output.didLoadData
-            .filter { $0 }
-            .subscribe(onNext: { [weak self] _ in
-                self?.collectionView.reloadData()
+        output.willChangeSubView
+            .subscribe(onNext: { [weak self] mode in
+                self?.imageListView.isHidden = mode == .bookmark
+                self?.bookmarkListView.isHidden = mode == .result
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension ImageSearchViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        searchBar.selectedScopeButtonIndex == 0 ? viewModel.imageList.count : viewModel.bookmarkList.count
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageItemCell.identifier,
-            for: indexPath
-        ) as? ImageItemCell
-        else { return UICollectionViewCell() }
-
-        let imageItem = viewModel.imageList[indexPath.row]
-        cell.updateUI(imageItem)
-
-        return cell
-    }
-}
-
-extension ImageSearchViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let item = viewModel.imageList[indexPath.row]
-        let height = calcRatioHeight(width: item.width, height: item.height)
-
-        return .init(width: UIScreen.main.bounds.width, height: height + 44)
-    }
-
-    private func calcRatioHeight(width: CGFloat, height: CGFloat) -> CGFloat {
-        let ratio = UIScreen.main.bounds.width / width
-        return height * ratio
     }
 }

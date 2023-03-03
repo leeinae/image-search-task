@@ -18,15 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
-        let imageSearchService = SearchRepository()
-        let imageSearchUseCase = ImageSearchUseCase(searchService: imageSearchService)
-        let imageSearchViewModel = ImageSearchViewModel(imageSearchUseCase: imageSearchUseCase)
-        let rootViewController = ImageSearchViewController(imageSearchViewModel)
+        let imageSearchRepository = SearchRepository()
+        let bookmarkRepository = BookmarkRepository()
 
-        rootViewController.view.backgroundColor = .white
+        let imageSearchViewModel = ImageSearchViewModel(
+            imageSearchUseCase: ImageSearchUseCase(searchRespository: imageSearchRepository),
+            bookmarkUseCase: BookmarkUseCase(bookmarkRepository: bookmarkRepository)
+        )
+        let imageSearchViewController = ImageSearchViewController(imageSearchViewModel)
+        imageSearchViewController.view.backgroundColor = .white
 
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = rootViewController
+        window?.rootViewController = imageSearchViewController
         window?.makeKeyAndVisible()
     }
 }

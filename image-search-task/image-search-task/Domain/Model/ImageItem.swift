@@ -9,7 +9,8 @@ import Foundation
 
 struct ImageItem {
     let url: String
-    let displayName: String
     let width: CGFloat
     let height: CGFloat
+    var isBookmark: Bool = false
+    var datetime: Date = Date()
 }
