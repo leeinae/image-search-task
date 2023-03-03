@@ -11,6 +11,7 @@ import RxSwift
 final class ImageSearchViewModel {
     var imageList: [ImageItem] = []
     var bookmarkList: [ImageItem] = []
+    var visibleCellType: CellType = .image
 
     private let imageSearchUseCase: ImageSearchUseCaseProtocol
     private let bookmarkUseCase: BookmarkUseCaseProtocol
@@ -72,6 +73,7 @@ final class ImageSearchViewModel {
                 guard let self else { return }
 
                 self.imageList = self.convertedBookmarkImage(result, self.bookmarkList)
+                self.visibleCellType = result.isEmpty ? .empty : .image
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)

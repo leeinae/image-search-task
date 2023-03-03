@@ -5,8 +5,8 @@
 //  Created by inae Lee on 2023/03/04.
 //
 
-import UIKit
 import RxSwift
+import UIKit
 
 final class ImageListView: UIView {
     private weak var viewModel: ImageSearchViewModel?
@@ -22,6 +22,11 @@ final class ImageListView: UIView {
             ImageItemCell.self,
             forCellWithReuseIdentifier: ImageItemCell.identifier
         )
+        view.register(
+            EmptyCell.self,
+            forCellWithReuseIdentifier: EmptyCell.identifier
+        )
+        view.contentInsetAdjustmentBehavior = .never
         view.dataSource = self
         view.delegate = self
         return view
@@ -76,27 +81,43 @@ extension ImageListView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        viewModel?.imageList.count ?? .zero
+        guard viewModel?.visibleCellType != .empty else { return 1 }
+
+        return viewModel?.imageList.count ?? .zero
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ImageItemCell.identifier,
-            for: indexPath
-        ) as? ImageItemCell,
-            let viewModel = self.viewModel
-        else { return UICollectionViewCell() }
+        guard let cellType = viewModel?.visibleCellType else { return UICollectionViewCell() }
 
-        let imageItem = viewModel.imageList[indexPath.row]
-        cell.updateUI(imageItem)
-        cell.bindAction(imageItem)
-            .bind(to: bookmarkButtonTapAction)
-            .disposed(by: cell.disposeBag)
+        switch cellType {
+        case .image:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ImageItemCell.identifier,
+                for: indexPath
+            ) as? ImageItemCell,
+                let viewModel = self.viewModel
+            else { return UICollectionViewCell() }
 
-        return cell
+            let imageItem = viewModel.imageList[indexPath.row]
+            cell.updateUI(imageItem)
+            cell.bindAction(imageItem)
+                .bind(to: bookmarkButtonTapAction)
+                .disposed(by: cell.disposeBag)
+
+            return cell
+
+        case .empty:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmptyCell.identifier,
+                for: indexPath
+            ) as? EmptyCell
+            else { return UICollectionViewCell() }
+
+            return cell
+        }
     }
 }
 
@@ -108,10 +129,16 @@ extension ImageListView: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         guard let viewModel else { return .zero }
 
-        let item = viewModel.imageList[indexPath.row]
-        let height = calcRatioHeight(width: item.width, height: item.height)
+        let cellType = viewModel.visibleCellType
+        switch cellType {
+        case .image:
+            let item = viewModel.imageList[indexPath.row]
+            let height = calcRatioHeight(width: item.width, height: item.height)
 
-        return .init(width: UIScreen.main.bounds.width, height: height + 44)
+            return .init(width: UIScreen.main.bounds.width, height: height + 44)
+        case .empty:
+            return collectionView.bounds.size
+        }
     }
 
     private func calcRatioHeight(width: CGFloat, height: CGFloat) -> CGFloat {
