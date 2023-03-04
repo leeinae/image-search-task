@@ -108,10 +108,6 @@ final class ImageSearchViewModel {
             })
             .disposed(by: disposeBag)
 
-        imageSearchUseCase.networkErrorMessage
-            .bind(to: output.willShowAlert)
-            .disposed(by: disposeBag)
-
         bookmarkUseCase.bookmarkList
             .subscribe(onNext: { [weak self] result in
                 guard let self else { return }
@@ -125,9 +121,20 @@ final class ImageSearchViewModel {
             })
             .disposed(by: disposeBag)
 
+        imageSearchUseCase.networkErrorMessage
+            .bind(to: output.willShowAlert)
+            .disposed(by: disposeBag)
+
         return output
     }
+}
 
+extension ImageSearchViewModel {
+    /// 북마크 데이터에 이미지가 존재하면, 북마크 표시된 이미지 아이템 배열로  반환한다
+    /// - Parameters:
+    ///   - images: 원본 이미지 데이터
+    ///   - bookmarkList: 로컬에 저장된 북마크 데이터
+    /// - Returns: 북마크 표시가 반영된 이미지 배열
     private func convertedBookmarkImage(
         _ images: [ImageItem],
         _ bookmarkList: [ImageItem]
