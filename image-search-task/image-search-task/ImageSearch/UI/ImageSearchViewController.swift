@@ -42,6 +42,12 @@ final class ImageSearchViewController: UIViewController {
         bind()
     }
 
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        imageListView.viewWillTransition()
+        bookmarkListView.viewWillTransition()
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+
     private func setupUI() {
         view.addSubviews([searchBar, imageListView, bookmarkListView])
 
