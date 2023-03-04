@@ -61,11 +61,17 @@ final class ImageSearchViewModel {
             .disposed(by: disposeBag)
 
         input.didChangeImageSearchQuery?
-            .filter { !$0.isEmpty }
+            .map { $0.trim() }
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe { [weak self] keyword in
+            .subscribe(onNext: { [weak self] keyword in
+                guard !keyword.isEmpty else {
+                    self?.imageList = []
+                    self?.bookmarkUseCase.fetchBookmarkList()
+                    return
+                }
+
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
-            }
+            })
             .disposed(by: disposeBag)
 
         input.didTapBookmarkButton?
@@ -96,13 +102,10 @@ final class ImageSearchViewModel {
                 guard let self else { return }
 
                 self.imageList = self.convertedBookmarkImage(result, self.bookmarkList)
+                self.bookmarkList = self.bookmarkList.filter { self.imageList.contains($0) }
                 self.visibleCellType = result.isEmpty ? .empty : .image
                 output.didLoadData.accept(true)
             })
-            .disposed(by: disposeBag)
-
-        imageSearchUseCase.networkErrorMessage
-            .bind(to: output.willShowAlert)
             .disposed(by: disposeBag)
 
         bookmarkUseCase.bookmarkList
@@ -111,18 +114,39 @@ final class ImageSearchViewModel {
 
                 let bookmarkedImageList = self.convertedBookmarkImage(self.imageList, result)
                 self.imageList = bookmarkedImageList
-                self.bookmarkList = result.sorted(by: { $0.datetime > $1.datetime })
+
+                let filterdBookmarkList = self.imageList.isEmpty ? result : result.filter { self.imageList.contains($0) }
+                self.bookmarkList = filterdBookmarkList.sorted(by: { $0.datetime > $1.datetime })
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
 
+        imageSearchUseCase.networkErrorMessage
+            .bind(to: output.willShowAlert)
+            .disposed(by: disposeBag)
+
         return output
     }
+}
 
-    private func convertedBookmarkImage(_ images: [ImageItem], _ bookmarkList: [ImageItem]) -> [ImageItem] {
+extension ImageSearchViewModel {
+    /// 북마크 데이터에 이미지가 존재하면, 북마크 표시된 이미지 아이템 배열로  반환한다
+    /// - Parameters:
+    ///   - images: 원본 이미지 데이터
+    ///   - bookmarkList: 로컬에 저장된 북마크 데이터
+    /// - Returns: 북마크 표시가 반영된 이미지 배열
+    private func convertedBookmarkImage(
+        _ images: [ImageItem],
+        _ bookmarkList: [ImageItem]
+    ) -> [ImageItem] {
         images.map { item -> ImageItem in
-            let isBookmark = bookmarkList.contains(where: { item.url == $0.url })
-            return .init(url: item.url, width: item.width, height: item.height, isBookmark: isBookmark)
+            let isBookmark = bookmarkList.contains(item)
+            return .init(
+                url: item.url,
+                width: item.width,
+                height: item.height,
+                isBookmark: isBookmark
+            )
         }
     }
 }

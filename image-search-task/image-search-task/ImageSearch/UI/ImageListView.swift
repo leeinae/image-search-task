@@ -18,6 +18,7 @@ final class ImageListView: UIView {
             frame: .zero,
             collectionViewLayout: collectionViewLayout
         )
+        view.backgroundColor = .white
         view.register(
             ImageItemCell.self,
             forCellWithReuseIdentifier: ImageItemCell.identifier
