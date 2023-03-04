@@ -9,7 +9,7 @@ import RxSwift
 import UIKit
 
 class DefaultListView: UIView {
-    weak var viewModel: ImageSearchViewModel?
+    private(set) weak var viewModel: ImageSearchViewModel?
     private(set) var bookmarkButtonTapAction = PublishSubject<ImageItem>()
     var disposeBag = DisposeBag()
 
