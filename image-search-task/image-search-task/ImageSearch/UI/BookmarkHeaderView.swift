@@ -5,13 +5,15 @@
 //  Created by inae Lee on 2023/03/04.
 //
 
-import UIKit
+import RxSwift
 import SnapKit
+import UIKit
 
 final class BookmarkHeaderView: UICollectionReusableView {
     static let identifier = String(String(describing: BookmarkListView.self))
 
     weak var viewModel: ImageSearchViewModel?
+    var disposeBag = DisposeBag()
 
     private let editButton: UIButton = {
         let button = UIButton()
@@ -24,6 +26,8 @@ final class BookmarkHeaderView: UICollectionReusableView {
         let button = UIButton()
         button.setTitle("완료", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitleColor(UIColor.gray, for: .disabled)
+        button.isEnabled = false
         return button
     }()
 
@@ -38,6 +42,11 @@ final class BookmarkHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
     private func setupUI() {
         addSubviews([editButton, finishButton])
 
@@ -48,6 +57,12 @@ final class BookmarkHeaderView: UICollectionReusableView {
         editButton.snp.makeConstraints { make in
             make.trailing.equalTo(finishButton.snp.leading).offset(-12)
             make.centerY.equalTo(finishButton)
+        }
+    }
+
+    func bindAction() -> Observable<Bool> {
+        editButton.rx.tap.asObservable().map { [weak self] in
+            return self?.viewModel?.isBookmarkEditMode ?? false
         }
     }
 }

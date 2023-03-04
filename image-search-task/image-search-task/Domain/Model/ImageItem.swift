@@ -13,4 +13,5 @@ struct ImageItem {
     let height: CGFloat
     var isBookmark: Bool = false
     var datetime: Date = Date()
+    var isHiddenCheckButton: Bool = true
 }

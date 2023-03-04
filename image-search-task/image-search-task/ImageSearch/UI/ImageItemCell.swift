@@ -15,6 +15,12 @@ final class ImageItemCell: UICollectionViewCell {
     static let identifier = String(describing: ImageItemCell.self)
     var disposeBag = DisposeBag()
 
+    override var isSelected: Bool {
+        willSet {
+            self.setSelected(newValue)
+        }
+    }
+
     private let thumbnailView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
@@ -28,6 +34,7 @@ final class ImageItemCell: UICollectionViewCell {
         button.setImage(UIImage(named: "ic-check"), for: .selected)
         button.setImage(UIImage(named: "ic-uncheck"), for: .normal)
         button.isHidden = true
+        button.isUserInteractionEnabled = false
         return button
     }()
 
@@ -42,6 +49,13 @@ final class ImageItemCell: UICollectionViewCell {
         }
         button.tintColor = .black
         return button
+    }()
+
+    private let overlayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBlue.withAlphaComponent(0.3)
+        view.isHidden = true
+        return view
     }()
 
     override init(frame: CGRect) {
@@ -63,10 +77,15 @@ final class ImageItemCell: UICollectionViewCell {
 
     private func setupUI() {
         contentView.addSubviews([thumbnailView, bookmarkButton, checkButton])
+        thumbnailView.addSubview(overlayView)
 
         thumbnailView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(bookmarkButton.snp.top)
+        }
+
+        overlayView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
 
         bookmarkButton.snp.makeConstraints { make in
@@ -83,6 +102,7 @@ final class ImageItemCell: UICollectionViewCell {
         guard let url = URL(string: model.url) else { return }
 
         bookmarkButton.isSelected = model.isBookmark
+        checkButton.isHidden = model.isHiddenCheckButton
         thumbnailView.sd_setImage(with: url) { [weak self] image, error, _, _ in
             if error != nil {
                 self?.thumbnailView.image = UIImage(named: "ic-broken")
@@ -109,5 +129,11 @@ final class ImageItemCell: UICollectionViewCell {
                 isBookmark: !self.bookmarkButton.isSelected
             )
         }
+    }
+
+    private func setSelected(_ isSelected: Bool) {
+        self.overlayView.isHidden = !isSelected
+        self.checkButton.isSelected = isSelected
+        self.checkButton.isHidden = false
     }
 }

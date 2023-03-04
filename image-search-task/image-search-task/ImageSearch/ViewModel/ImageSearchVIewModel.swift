@@ -12,6 +12,7 @@ final class ImageSearchViewModel {
     var imageList: [ImageItem] = []
     var bookmarkList: [ImageItem] = []
     var visibleCellType: CellType = .image
+    var isBookmarkEditMode: Bool = false
 
     private let imageSearchUseCase: ImageSearchUseCaseProtocol
     private let bookmarkUseCase: BookmarkUseCaseProtocol
@@ -31,12 +32,14 @@ final class ImageSearchViewModel {
         let didChangeImageSearchQuery: Observable<String>?
         let didTapBookmarkButton: Observable<ImageItem>?
         let didChangeSelectedScopeButtonIndex: Observable<Int>?
+        let didTapBookmarkEditButton: Observable<Bool>?
     }
 
     struct Output {
         var didLoadData = PublishRelay<Bool>()
         var willShowAlert = PublishRelay<String>()
         var willChangeSubView = BehaviorRelay<SearchBarCase>(value: .result)
+        var bookmarkEditMode = BehaviorRelay<Bool>(value: false)
     }
 
     func transform(from input: Input, disposeBag: DisposeBag) -> Output {
@@ -70,6 +73,14 @@ final class ImageSearchViewModel {
                 self?.bookmarkUseCase.fetchBookmarkList()
             }).disposed(by: disposeBag)
 
+        input.didTapBookmarkEditButton?
+            .subscribe(onNext: {[weak self] flag in
+                print("편집 버튼 \(!flag)")
+                self?.isBookmarkEditMode = !flag
+                output.bookmarkEditMode.accept(!flag)
+            })
+            .disposed(by: disposeBag)
+
         imageSearchUseCase.resultList
             .subscribe(onNext: { [weak self] result in
                 guard let self else { return }
@@ -91,6 +102,7 @@ final class ImageSearchViewModel {
                 let bookmarkedImageList = self.convertedBookmarkImage(self.imageList, result)
                 self.imageList = bookmarkedImageList
                 self.bookmarkList = result.sorted(by: { $0.datetime > $1.datetime })
+                output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
 
