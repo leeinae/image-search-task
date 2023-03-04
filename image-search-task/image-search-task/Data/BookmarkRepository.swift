@@ -61,8 +61,6 @@ struct BookmarkRepository: BookmarkRepositoryProtocol {
             let fetchRequest: NSFetchRequest<ImageEntity> = ImageEntity.fetchRequest()
             do {
                 let entities = try coreDataStore.viewContext.fetch(fetchRequest)
-                print(entities.map(\.url))
-                print("=============")
                 single(.success(entities))
             } catch {
                 print("[Core Data] load all list error \(error)")
