@@ -44,6 +44,7 @@ final class ImageSearchViewController: UIViewController {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         imageListView.viewWillTransition()
+        bookmarkListView.viewWillTransition()
         super.viewWillTransition(to: size, with: coordinator)
     }
 

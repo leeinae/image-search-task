@@ -8,60 +8,26 @@
 import RxSwift
 import UIKit
 
-final class BookmarkListView: UIView {
-    private weak var viewModel: ImageSearchViewModel?
-    private let bookmarkButtonTapAction = PublishSubject<ImageItem>()
+final class BookmarkListView: DefaultListView {
     private let editButtonTapAction = PublishSubject<Bool>()
     private let finishButtonTapAction = PublishSubject<Void>()
-    private var disposeBag = DisposeBag()
 
-    private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: collectionViewLayout
-        )
-        view.backgroundColor = .white
-        view.register(
-            ImageItemCell.self,
-            forCellWithReuseIdentifier: ImageItemCell.identifier
-        )
-        view.register(
+    override init(_ viewModel: ImageSearchViewModel) {
+        super.init(viewModel)
+
+        configureCollectionView()
+        bind()
+    }
+
+    private func configureCollectionView() {
+        collectionView.register(
             BookmarkHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: BookmarkHeaderView.identifier
         )
-        view.dataSource = self
-        view.delegate = self
-        view.contentInsetAdjustmentBehavior = .never
-        view.allowsMultipleSelection = true
-        return view
-    }()
-
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.sectionHeadersPinToVisibleBounds = true
-        return layout
-    }()
-
-    init(_ viewModel: ImageSearchViewModel) {
-        super.init(frame: .zero)
-        self.viewModel = viewModel
-
-        setupUI()
-        bind()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupUI() {
-        addSubview(collectionView)
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        collectionView.allowsMultipleSelection = true
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 
     private func bind() {
@@ -158,13 +124,6 @@ extension BookmarkListView: UICollectionViewDelegateFlowLayout {
         let height = calcRatioHeight(width: item.width, height: item.height)
 
         return .init(width: UIScreen.main.bounds.width, height: height + 44)
-    }
-
-    private func calcRatioHeight(width: CGFloat, height: CGFloat) -> CGFloat {
-        guard !width.isZero else { return 100 }
-
-        let ratio = UIScreen.main.bounds.width / width
-        return height * ratio
     }
 
     func collectionView(
