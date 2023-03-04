@@ -26,6 +26,8 @@ final class ImageListView: UIView {
             EmptyCell.self,
             forCellWithReuseIdentifier: EmptyCell.identifier
         )
+        view.allowsMultipleSelection = false
+        view.allowsSelection = false
         view.contentInsetAdjustmentBehavior = .never
         view.dataSource = self
         view.delegate = self
@@ -63,7 +65,9 @@ final class ImageListView: UIView {
             viewWillAppear: nil,
             didChangeImageSearchQuery: nil,
             didTapBookmarkButton: bookmarkButtonTapAction,
-            didChangeSelectedScopeButtonIndex: nil
+            didChangeSelectedScopeButtonIndex: nil,
+            didTapBookmarkEditButton: nil,
+            selectedBookmarkCellRow: nil
         )
 
         let output = viewModel?.transform(from: input, disposeBag: disposeBag)

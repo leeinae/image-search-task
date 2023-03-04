@@ -52,7 +52,8 @@ final class ImageSearchViewController: UIViewController {
 
         imageListView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
 
         bookmarkListView.snp.makeConstraints { make in
@@ -65,7 +66,9 @@ final class ImageSearchViewController: UIViewController {
             viewWillAppear: rx.methodInvoked(#selector(UIViewController.viewWillAppear)).map { _ in },
             didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
             didTapBookmarkButton: nil,
-            didChangeSelectedScopeButtonIndex: searchBar.rx.selectedScopeButtonIndex.asObservable()
+            didChangeSelectedScopeButtonIndex: searchBar.rx.selectedScopeButtonIndex.asObservable(),
+            didTapBookmarkEditButton: nil,
+            selectedBookmarkCellRow: nil
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)

@@ -5,12 +5,14 @@
 //  Created by inae Lee on 2023/03/04.
 //
 
-import UIKit
 import RxSwift
+import UIKit
 
 final class BookmarkListView: UIView {
     private weak var viewModel: ImageSearchViewModel?
     private let bookmarkButtonTapAction = PublishSubject<ImageItem>()
+    private let editButtonTapAction = PublishSubject<Bool>()
+    private let finishButtonTapAction = PublishSubject<Void>()
     private var disposeBag = DisposeBag()
 
     private lazy var collectionView: UICollectionView = {
@@ -22,15 +24,22 @@ final class BookmarkListView: UIView {
             ImageItemCell.self,
             forCellWithReuseIdentifier: ImageItemCell.identifier
         )
+        view.register(
+            BookmarkHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: BookmarkHeaderView.identifier
+        )
         view.dataSource = self
         view.delegate = self
         view.contentInsetAdjustmentBehavior = .never
+        view.allowsMultipleSelection = true
         return view
     }()
 
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionHeadersPinToVisibleBounds = true
         return layout
     }()
 
@@ -59,13 +68,24 @@ final class BookmarkListView: UIView {
             viewWillAppear: nil,
             didChangeImageSearchQuery: nil,
             didTapBookmarkButton: bookmarkButtonTapAction,
-            didChangeSelectedScopeButtonIndex: nil
+            didChangeSelectedScopeButtonIndex: nil,
+            didTapBookmarkEditButton: editButtonTapAction,
+            selectedBookmarkCellRow: finishButtonTapAction.compactMap { [weak self] _ in
+                self?.collectionView.indexPathsForSelectedItems?.compactMap { $0.row }
+            }
         )
 
         let output = viewModel?.transform(from: input, disposeBag: disposeBag)
         output?.didLoadData
             .filter { $0 }
             .subscribe(onNext: { [weak self] _ in
+                self?.collectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        output?.bookmarkEditMode
+            .subscribe(onNext: { [weak self] mode in
+                self?.collectionView.allowsSelection = mode
+                self?.collectionView.allowsMultipleSelection = mode
                 self?.collectionView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -91,13 +111,37 @@ extension BookmarkListView: UICollectionViewDataSource {
             let viewModel = self.viewModel
         else { return UICollectionViewCell() }
 
-        let imageItem = viewModel.bookmarkList[indexPath.row]
+        var imageItem = viewModel.bookmarkList[indexPath.row]
+        imageItem.isHiddenCheckButton = !viewModel.isBookmarkEditMode
         cell.updateUI(imageItem)
         cell.bindAction(imageItem)
             .bind(to: bookmarkButtonTapAction)
             .disposed(by: cell.disposeBag)
 
         return cell
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                  ofKind: kind,
+                  withReuseIdentifier: BookmarkHeaderView.identifier,
+                  for: indexPath
+              ) as? BookmarkHeaderView
+        else { return UICollectionReusableView() }
+        header.viewModel = viewModel
+        header.bindEditButtonAction()
+            .bind(to: editButtonTapAction)
+            .disposed(by: header.disposeBag)
+        header.bindFinishButtonAction()
+            .bind(to: finishButtonTapAction)
+            .disposed(by: header.disposeBag)
+
+        return header
     }
 }
 
@@ -120,5 +164,13 @@ extension BookmarkListView: UICollectionViewDelegateFlowLayout {
 
         let ratio = UIScreen.main.bounds.width / width
         return height * ratio
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        CGSize(width: UIScreen.main.bounds.width, height: 44)
     }
 }
