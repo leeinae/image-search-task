@@ -39,6 +39,7 @@ final class BookmarkListView: UIView {
     private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.sectionHeadersPinToVisibleBounds = true
         return layout
     }()
 

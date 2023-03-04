@@ -52,7 +52,8 @@ final class ImageSearchViewController: UIViewController {
 
         imageListView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
 
         bookmarkListView.snp.makeConstraints { make in

@@ -48,6 +48,7 @@ final class BookmarkHeaderView: UICollectionReusableView {
     }
 
     private func setupUI() {
+        backgroundColor = .white
         addSubviews([editButton, finishButton])
 
         finishButton.snp.makeConstraints { make in
