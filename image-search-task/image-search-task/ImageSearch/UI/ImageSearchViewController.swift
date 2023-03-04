@@ -66,7 +66,8 @@ final class ImageSearchViewController: UIViewController {
             didChangeImageSearchQuery: searchBar.rx.text.orEmpty.asObservable(),
             didTapBookmarkButton: nil,
             didChangeSelectedScopeButtonIndex: searchBar.rx.selectedScopeButtonIndex.asObservable(),
-            didTapBookmarkEditButton: nil
+            didTapBookmarkEditButton: nil,
+            selectedBookmarkCellRow: nil
         )
 
         let output = viewModel.transform(from: input, disposeBag: disposeBag)

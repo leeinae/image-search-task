@@ -14,6 +14,7 @@ protocol BookmarkUseCaseProtocol {
     func fetchBookmarkList()
     func save(with item: ImageItem)
     func remove(with item: ImageItem)
+    func removeItems(items: [ImageItem])
 }
 
 final class BookmarkUseCase: BookmarkUseCaseProtocol {
@@ -46,6 +47,12 @@ final class BookmarkUseCase: BookmarkUseCaseProtocol {
 
     func remove(with item: ImageItem) {
         bookmarkRepository.remove(item: item)
+    }
+
+    func removeItems(items: [ImageItem]) {
+        items.forEach { self.remove(with: $0) }
+
+        fetchBookmarkList()
     }
 
     func removeAll() {

@@ -60,9 +60,24 @@ final class BookmarkHeaderView: UICollectionReusableView {
         }
     }
 
-    func bindAction() -> Observable<Bool> {
-        editButton.rx.tap.asObservable().map { [weak self] in
-            return self?.viewModel?.isBookmarkEditMode ?? false
+    func bindEditButtonAction() -> Observable<Bool> {
+        editButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.finishButton.isEnabled.toggle()
+            })
+            .disposed(by: disposeBag)
+
+        return editButton.rx.tap.asObservable().map { [weak self] in
+            self?.viewModel?.isBookmarkEditMode ?? false
         }
+    }
+
+    func bindFinishButtonAction() -> Observable<Void> {
+        finishButton.rx.tap
+            .map { false }
+            .bind(to: finishButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+
+        return finishButton.rx.tap.asObservable()
     }
 }

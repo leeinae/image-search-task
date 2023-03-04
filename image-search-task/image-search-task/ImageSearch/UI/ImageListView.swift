@@ -66,7 +66,8 @@ final class ImageListView: UIView {
             didChangeImageSearchQuery: nil,
             didTapBookmarkButton: bookmarkButtonTapAction,
             didChangeSelectedScopeButtonIndex: nil,
-            didTapBookmarkEditButton: nil
+            didTapBookmarkEditButton: nil,
+            selectedBookmarkCellRow: nil
         )
 
         let output = viewModel?.transform(from: input, disposeBag: disposeBag)

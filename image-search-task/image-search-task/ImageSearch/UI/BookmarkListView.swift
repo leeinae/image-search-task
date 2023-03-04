@@ -12,6 +12,7 @@ final class BookmarkListView: UIView {
     private weak var viewModel: ImageSearchViewModel?
     private let bookmarkButtonTapAction = PublishSubject<ImageItem>()
     private let editButtonTapAction = PublishSubject<Bool>()
+    private let finishButtonTapAction = PublishSubject<Void>()
     private var disposeBag = DisposeBag()
 
     private lazy var collectionView: UICollectionView = {
@@ -67,7 +68,10 @@ final class BookmarkListView: UIView {
             didChangeImageSearchQuery: nil,
             didTapBookmarkButton: bookmarkButtonTapAction,
             didChangeSelectedScopeButtonIndex: nil,
-            didTapBookmarkEditButton: editButtonTapAction
+            didTapBookmarkEditButton: editButtonTapAction,
+            selectedBookmarkCellRow: finishButtonTapAction.compactMap { [weak self] _ in
+                self?.collectionView.indexPathsForSelectedItems?.compactMap { $0.row }
+            }
         )
 
         let output = viewModel?.transform(from: input, disposeBag: disposeBag)
@@ -84,7 +88,6 @@ final class BookmarkListView: UIView {
                 self?.collectionView.reloadData()
             })
             .disposed(by: disposeBag)
-
     }
 }
 
@@ -130,8 +133,11 @@ extension BookmarkListView: UICollectionViewDataSource {
               ) as? BookmarkHeaderView
         else { return UICollectionReusableView() }
         header.viewModel = viewModel
-        header.bindAction()
+        header.bindEditButtonAction()
             .bind(to: editButtonTapAction)
+            .disposed(by: header.disposeBag)
+        header.bindFinishButtonAction()
+            .bind(to: finishButtonTapAction)
             .disposed(by: header.disposeBag)
 
         return header

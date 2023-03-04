@@ -33,6 +33,7 @@ final class ImageSearchViewModel {
         let didTapBookmarkButton: Observable<ImageItem>?
         let didChangeSelectedScopeButtonIndex: Observable<Int>?
         let didTapBookmarkEditButton: Observable<Bool>?
+        let selectedBookmarkCellRow: Observable<[Int]>?
     }
 
     struct Output {
@@ -74,10 +75,19 @@ final class ImageSearchViewModel {
             }).disposed(by: disposeBag)
 
         input.didTapBookmarkEditButton?
-            .subscribe(onNext: {[weak self] flag in
-                print("편집 버튼 \(!flag)")
+            .subscribe(onNext: { [weak self] flag in
                 self?.isBookmarkEditMode = !flag
                 output.bookmarkEditMode.accept(!flag)
+            })
+            .disposed(by: disposeBag)
+
+        input.selectedBookmarkCellRow?
+            .subscribe(onNext: { [weak self] selectedRows in
+                guard let self else { return }
+
+                let items = selectedRows.compactMap { self.bookmarkList[$0] }
+                self.bookmarkUseCase.removeItems(items: items)
+                self.isBookmarkEditMode = false
             })
             .disposed(by: disposeBag)
 
