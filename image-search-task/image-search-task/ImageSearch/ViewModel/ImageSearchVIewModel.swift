@@ -61,11 +61,17 @@ final class ImageSearchViewModel {
             .disposed(by: disposeBag)
 
         input.didChangeImageSearchQuery?
-            .filter { !$0.isEmpty && !$0.isContainsWhiteSpace }
+            .map { $0.trim() }
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe { [weak self] keyword in
+            .subscribe(onNext: { [weak self] keyword in
+                guard !keyword.isEmpty else {
+                    self?.imageList = []
+                    self?.bookmarkUseCase.fetchBookmarkList()
+                    return
+                }
+
                 self?.imageSearchUseCase.fetchImageSearchResult(query: keyword)
-            }
+            })
             .disposed(by: disposeBag)
 
         input.didTapBookmarkButton?
@@ -96,6 +102,7 @@ final class ImageSearchViewModel {
                 guard let self else { return }
 
                 self.imageList = self.convertedBookmarkImage(result, self.bookmarkList)
+                self.bookmarkList = self.bookmarkList.filter { self.imageList.contains($0) }
                 self.visibleCellType = result.isEmpty ? .empty : .image
                 output.didLoadData.accept(true)
             })
@@ -111,7 +118,9 @@ final class ImageSearchViewModel {
 
                 let bookmarkedImageList = self.convertedBookmarkImage(self.imageList, result)
                 self.imageList = bookmarkedImageList
-                self.bookmarkList = result.sorted(by: { $0.datetime > $1.datetime })
+
+                let filterdBookmarkList = self.imageList.isEmpty ? result : result.filter { self.imageList.contains($0) }
+                self.bookmarkList = filterdBookmarkList.sorted(by: { $0.datetime > $1.datetime })
                 output.didLoadData.accept(true)
             })
             .disposed(by: disposeBag)
@@ -119,10 +128,18 @@ final class ImageSearchViewModel {
         return output
     }
 
-    private func convertedBookmarkImage(_ images: [ImageItem], _ bookmarkList: [ImageItem]) -> [ImageItem] {
+    private func convertedBookmarkImage(
+        _ images: [ImageItem],
+        _ bookmarkList: [ImageItem]
+    ) -> [ImageItem] {
         images.map { item -> ImageItem in
-            let isBookmark = bookmarkList.contains(where: { item.url == $0.url })
-            return .init(url: item.url, width: item.width, height: item.height, isBookmark: isBookmark)
+            let isBookmark = bookmarkList.contains(item)
+            return .init(
+                url: item.url,
+                width: item.width,
+                height: item.height,
+                isBookmark: isBookmark
+            )
         }
     }
 }
