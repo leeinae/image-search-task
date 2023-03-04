@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    var isContainsWhiteSpace: Bool {
-        trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).isEmpty
+    func trim() -> Self {
+        trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
     }
 }
