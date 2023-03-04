@@ -54,6 +54,10 @@ final class ImageListView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func viewWillTransition() {
+        resizeCells()
+    }
+
     private func setupUI() {
         addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
@@ -151,5 +155,16 @@ extension ImageListView: UICollectionViewDelegateFlowLayout {
 
         let ratio = UIScreen.main.bounds.width / width
         return height * ratio
+    }
+
+    private func resizeCells() {
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            guard let _ = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+                layout.itemSize = CGSize.zero
+                return
+            }
+
+            layout.invalidateLayout()
+        }
     }
 }
